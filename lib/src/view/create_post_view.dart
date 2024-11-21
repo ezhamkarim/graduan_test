@@ -40,16 +40,16 @@ class CreatePostView extends StatelessWidget {
                             title: controller.teController.text,
                             created_at: '',
                             updated_at: ''))
-                        .catchError((e) {
-                      if (context.mounted) {
+                        .then((val) {
+                      if (context.mounted && val == null) {
+                        Navigator.of(context).pop();
+                      }
+
+                      if (context.mounted && val != null) {
                         DialogHelper.dialogWithOutActionWarning(
                           context,
-                          'Fail to create post',
+                          'Fail to create post: $val',
                         );
-                      }
-                    }).then((val) {
-                      if (context.mounted) {
-                        Navigator.of(context).pop();
                       }
                     });
                   }

@@ -26,7 +26,7 @@ class ProfileView extends StatelessWidget {
                     ),
                     const Text(
                       'Profile',
-                      style: TextStyle(color: Colors.black, fontSize: 32),
+                      style: TextStyle(fontSize: 32),
                     )
                   ]..separatorListWidget(const SizedBox(width: 12)),
                 ),

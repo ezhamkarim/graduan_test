@@ -43,7 +43,7 @@ class _HomeViewState extends State<HomeView> {
                 children: [
                   const Text(
                     'Post',
-                    style: TextStyle(color: Colors.black, fontSize: 32),
+                    style: TextStyle(fontSize: 32),
                   ),
                   Row(
                     children: [
