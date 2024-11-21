@@ -7,6 +7,7 @@ void setup() {
   // Register AuthService as a lazy singleton
   getIt.registerLazySingleton<AuthService>(AuthService.new);
   getIt.registerLazySingleton<APIServices>(APIServices.new);
+  getIt.registerLazySingleton<CacheService>(CacheService.new);
 }
 
 T getService<T extends Object>() {

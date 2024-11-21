@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:graduan_test/src/service/service.dart';
 import 'package:http/http.dart' as http;
 
 import '../helper/helper.dart';
@@ -8,9 +9,14 @@ import '../model/api_exception.dart';
 class APIServices {
   late String _url;
   final Map<String, String> _header = {};
-
   Future<void> _getHeader() async {
     _header.putIfAbsent('Content-Type', () => 'multipart/form-data');
+
+    var token = await CacheService.readCache('token');
+
+    if (token == null) return;
+
+    _header.putIfAbsent('Authorization', () => 'Bearer $token');
   }
 
   APIServices() {

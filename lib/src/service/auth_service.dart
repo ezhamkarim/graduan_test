@@ -23,8 +23,12 @@ class AuthService with ChangeNotifier {
   Future<String?> checkAuth() async {
     _viewState = ViewState.busy;
     logInfo('Authentication...');
-    await Future.delayed(
-        const Duration(seconds: 2), () => _isAuthenticated = false);
+
+    var result = await CacheService.readCache('token');
+
+    if (result != null) {
+      _isAuthenticated = true;
+    }
 
     logSuccess('Authenticated');
 

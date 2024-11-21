@@ -1,55 +1,28 @@
 import 'package:figma_squircle/figma_squircle.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_icon_class/font_awesome_icon_class.dart';
 import 'package:graduan_test/src/helper/helper.dart';
 
-class CustomeTextField extends StatefulWidget {
+class CustomeTextField extends StatelessWidget {
   const CustomeTextField({
     super.key,
     required this.textEditingController,
     this.obscureText,
     this.validator,
+    required this.hintText,
   });
   final TextEditingController textEditingController;
+  final String hintText;
   final bool? obscureText;
   final String? Function(String?)? validator;
 
   @override
-  State<CustomeTextField> createState() => _CustomeTextFieldState();
-}
-
-class _CustomeTextFieldState extends State<CustomeTextField> {
-  bool isObscure = true;
-
-  @override
-  void initState() {
-    super.initState();
-
-    isObscure = widget.obscureText ?? false;
-  }
-
-  @override
   Widget build(BuildContext context) {
     return TextFormField(
-      obscureText: widget.obscureText ?? false,
-      controller: widget.textEditingController,
-      validator: widget.validator ?? ValidatorHelper.generalValidator,
+      obscureText: obscureText ?? false,
+      controller: textEditingController,
+      validator: validator ?? ValidatorHelper.generalValidator,
       decoration: InputDecoration(
-          suffixIcon: isObscure
-              ? IconButton(
-                  onPressed: () {
-                    setState(() {
-                      isObscure = !isObscure;
-                    });
-                  },
-                  icon: FaIcon(
-                    isObscure
-                        ? FontAwesomeIcons.eyeSlash
-                        : FontAwesomeIcons.eye,
-                    color: Colors.black,
-                  ))
-              : null,
-          // hintText: widget.hintText,
+          hintText: hintText,
           disabledBorder: OutlineInputBorder(
               borderSide:
                   BorderSide(color: Colors.black.withOpacity(0.5), width: 2),

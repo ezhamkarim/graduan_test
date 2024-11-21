@@ -33,10 +33,12 @@ class _LoginViewState extends State<LoginView> {
               children: [
                 CustomeTextField(
                   textEditingController: emailEditingController,
+                  hintText: 'Email',
                 ),
                 CustomeTextField(
                   textEditingController: pwEditingController,
                   obscureText: true,
+                  hintText: 'Password',
                 ),
                 CustomButton(
                   onPressed: () async {
