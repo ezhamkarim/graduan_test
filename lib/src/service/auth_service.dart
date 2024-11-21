@@ -1,8 +1,16 @@
-class AuthService {
+import 'package:flutter/material.dart';
+
+class AuthService with ChangeNotifier {
+  bool _isAuthenticated = false;
+
+  bool get isAuthenticated => _isAuthenticated;
+
   /// check auth
   ///
   ///
   Future<String?> checkAuth() async {
+    _isAuthenticated = true;
+    notifyListeners();
     return null;
   }
 
