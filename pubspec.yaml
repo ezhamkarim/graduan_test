@@ -16,7 +16,7 @@ dependencies:
   flutter_cache: ^0.1.0
   flutter_localizations:
     sdk: flutter
-  font_awesome_icon_class: ^0.0.6
+  font_awesome_flutter: ^10.8.0
   get_it: ^8.0.2
   http: ^1.2.2
 

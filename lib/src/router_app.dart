@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:graduan_test/src/view/auth_wrapper.dart';
 
 import 'view/view.dart';
 
@@ -8,6 +7,8 @@ class GraduanRouter {
     switch (routeSettings.name) {
       case AuthWrapperView.routeName:
         return MaterialPageRoute(builder: (context) => const AuthWrapperView());
+      case ProfileView.routeName:
+        return MaterialPageRoute(builder: (context) => const ProfileView());
       default:
         return MaterialPageRoute(
           builder: (context) => ExceptionView(routeName: routeSettings.name!),
