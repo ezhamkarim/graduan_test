@@ -30,12 +30,31 @@ class APIServices {
 
   Future post({
     required String path,
-    required Map<String, String>
-        formData, // Form data should be a Map<String, String>
+    required Map<String, String> formData,
   }) async {
     try {
+      var client = http.Client();
       // Prepare the multipart request
+
       var uri = Uri.parse('$_url$path');
+
+      // if (formData.isEmpty) {
+      //   _header
+      //       .removeWhere((key, value) => value.contains('multipart/form-data'));
+      //   _header.putIfAbsent('Content', () => 'application/json');
+      //   var response = await client.post(
+      //     Uri.parse('$_url$path'),
+      //     headers: _header,
+      //   );
+      //   await _getHeader();
+      //   if (response.statusCode == 200) {
+      //     return jsonDecode(response.body);
+      //   }
+      //   throw ApiException(
+      //     code: response.statusCode.toString(),
+      //     message: response.body,
+      //   );
+      // }
       var request = http.MultipartRequest('POST', uri);
 
       // Add headers
@@ -52,8 +71,8 @@ class APIServices {
       // Convert the streamed response to a full response
       var response = await http.Response.fromStream(streamedResponse);
 
-      if (response.statusCode == 200) {
-        return jsonDecode(response.body);
+      if (response.statusCode == 200 || response.statusCode == 204) {
+        return response.body.isNotEmpty ? jsonDecode(response.body) : null;
       }
 
       throw ApiException(
@@ -62,6 +81,33 @@ class APIServices {
       );
     } catch (e) {
       logError('Error post (form-data): $e');
+      rethrow;
+    }
+  }
+
+  Future postLogout({
+    required String path,
+    required Map<String, dynamic> body,
+  }) async {
+    try {
+      var client = http.Client();
+
+      var token = await CacheService.readCache('token');
+      var response = await client.post(Uri.parse('$_url$path'), headers: {
+        'Accept': 'application/json',
+        'Content-Length': '0',
+        'Authorization': 'Bearer $token',
+      });
+
+      if (response.statusCode == 200 || response.statusCode == 204) {
+        return response.body.isNotEmpty ? jsonDecode(response.body) : null;
+      }
+      throw ApiException(
+        code: response.statusCode.toString(),
+        message: response.body,
+      );
+    } catch (e) {
+      logError('Error post : $e');
       rethrow;
     }
   }

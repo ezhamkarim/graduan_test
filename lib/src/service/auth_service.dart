@@ -61,7 +61,17 @@ class AuthService with ChangeNotifier {
   /// logout
   ///
   Future<String?> logout() async {
-    CacheService.deleteCache('token');
-    return null;
+    try {
+      var logout =
+          await _apiService.postLogout(path: '/dashboard/logout', body: {});
+      CacheService.deleteCache('token');
+
+      _isAuthenticated = false;
+      return null;
+    } catch (e) {
+      return e.toString();
+    } finally {
+      notifyListeners();
+    }
   }
 }

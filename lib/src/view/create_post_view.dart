@@ -13,48 +13,55 @@ class CreatePostView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Consumer<PostController>(builder: (_, controller, ___) {
-        return ListView(
-          children: [
-            Row(
-              children: [
-                BackButton(
-                  onPressed: () => Navigator.of(context).pop(),
-                ),
-              ],
-            ),
-            Form(
-              key: controller.formKey,
-              child: CustomTextField(
-                textEditingController: controller.teController,
-                hintText: 'Title',
+        return Padding(
+          padding: const EdgeInsets.all(12.0),
+          child: ListView(
+            children: [
+              Row(
+                children: [
+                  BackButton(
+                    onPressed: () => Navigator.of(context).pop(),
+                  ),
+                ],
               ),
-            ),
-            CustomButton(
-              onPressed: () async {
-                if (controller.formKey.currentState!.validate()) {
-                  await controller
-                      .create(Post(id: '', title: controller.teController.text))
-                      .catchError((e) {
-                    if (context.mounted) {
-                      DialogHelper.dialogWithOutActionWarning(
-                        context,
-                        'Fail to create post',
-                      );
-                    }
-                  }).then((val) {
-                    if (context.mounted) {
-                      Navigator.of(context).pop();
-                    }
-                  });
-                }
-              },
-              bgColor: Colors.blue[400],
-              viewState: controller.viewState,
-              child: const Text('Create Post'),
-            ),
-          ]..separatorListWidget(const SizedBox(
-              height: 8,
-            )),
+              Form(
+                key: controller.formKey,
+                child: CustomTextField(
+                  textEditingController: controller.teController,
+                  hintText: 'Title',
+                ),
+              ),
+              CustomButton(
+                onPressed: () async {
+                  if (controller.formKey.currentState!.validate()) {
+                    await controller
+                        .create(Post(
+                            id: 0,
+                            title: controller.teController.text,
+                            created_at: '',
+                            updated_at: ''))
+                        .catchError((e) {
+                      if (context.mounted) {
+                        DialogHelper.dialogWithOutActionWarning(
+                          context,
+                          'Fail to create post',
+                        );
+                      }
+                    }).then((val) {
+                      if (context.mounted) {
+                        Navigator.of(context).pop();
+                      }
+                    });
+                  }
+                },
+                bgColor: Colors.blue[400],
+                viewState: controller.viewState,
+                child: const Text('Create Post'),
+              ),
+            ]..separatorListWidget(const SizedBox(
+                height: 8,
+              )),
+          ),
         );
       }),
     );

@@ -16,11 +16,27 @@ class PostController with ChangeNotifier {
 
   final formKey = GlobalKey<FormState>();
 
+  final List<Post> _posts = [];
+
+  List<Post> get posts => _posts;
+
   Future<String?> get() async {
     try {
       _viewState = ViewState.busy;
-      var post = await _apiService.get('/post');
+      var result = await _apiService.get('/post');
 
+      var list = result as List;
+
+      _posts.clear();
+      for (var element in list) {
+        _posts.add(Post.fromMap(element));
+      }
+
+      _posts.sort((a, b) {
+        DateTime dateA = DateTime.parse(a.created_at);
+        DateTime dateB = DateTime.parse(b.created_at);
+        return dateB.compareTo(dateA); // Compare in reverse order
+      });
       return null;
     } catch (e) {
       return e.toString();
@@ -43,6 +59,7 @@ class PostController with ChangeNotifier {
       return e.toString();
     } finally {
       _viewState = ViewState.idle;
+      teController.clear();
       notifyListeners();
     }
   }
