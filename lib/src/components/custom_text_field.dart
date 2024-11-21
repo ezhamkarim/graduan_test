@@ -2,22 +2,25 @@ import 'package:figma_squircle/figma_squircle.dart';
 import 'package:flutter/material.dart';
 import 'package:graduan_test/src/helper/helper.dart';
 
-class CustomeTextField extends StatelessWidget {
-  const CustomeTextField({
+class CustomTextField extends StatelessWidget {
+  const CustomTextField({
     super.key,
     required this.textEditingController,
     this.obscureText,
     this.validator,
     required this.hintText,
+    this.enabled = true,
   });
   final TextEditingController textEditingController;
   final String hintText;
   final bool? obscureText;
   final String? Function(String?)? validator;
+  final bool enabled;
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      enabled: enabled,
       obscureText: obscureText ?? false,
       controller: textEditingController,
       validator: validator ?? ValidatorHelper.generalValidator,

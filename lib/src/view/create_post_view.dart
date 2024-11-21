@@ -24,7 +24,7 @@ class CreatePostView extends StatelessWidget {
             ),
             Form(
               key: controller.formKey,
-              child: CustomeTextField(
+              child: CustomTextField(
                 textEditingController: controller.teController,
                 hintText: 'Title',
               ),
@@ -34,16 +34,16 @@ class CreatePostView extends StatelessWidget {
                 if (controller.formKey.currentState!.validate()) {
                   await controller
                       .create(Post(id: '', title: controller.teController.text))
-                      .then((val) {
-                    if (context.mounted) {
-                      Navigator.of(context).pop();
-                    }
-                  }).catchError((e) {
+                      .catchError((e) {
                     if (context.mounted) {
                       DialogHelper.dialogWithOutActionWarning(
                         context,
                         'Fail to create post',
                       );
+                    }
+                  }).then((val) {
+                    if (context.mounted) {
+                      Navigator.of(context).pop();
                     }
                   });
                 }

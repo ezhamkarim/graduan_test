@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:graduan_test/src/controller/controller.dart';
 import 'package:graduan_test/src/extensions/list.dart';
 import 'package:graduan_test/src/view/view.dart';
+import 'package:provider/provider.dart';
 
 class HomeView extends StatelessWidget {
   const HomeView({super.key});
@@ -33,12 +35,15 @@ class HomeView extends StatelessWidget {
                       style: TextStyle(color: Colors.white),
                     ),
                   ),
-                  IconButton(
-                    onPressed: () {
-                      Navigator.of(context).pushNamed(ProfileView.routeName);
-                    },
-                    icon: const FaIcon(FontAwesomeIcons.circleUser),
-                  )
+                  Consumer<ProfileController>(builder: (_, controller, __) {
+                    return IconButton(
+                      onPressed: () {
+                        controller.get();
+                        Navigator.of(context).pushNamed(ProfileView.routeName);
+                      },
+                      icon: const FaIcon(FontAwesomeIcons.circleUser),
+                    );
+                  })
                 ],
               )
             ],

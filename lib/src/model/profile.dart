@@ -3,7 +3,7 @@ import 'dart:convert';
 
 class Profile {
   final int id;
-  final String name;
+  String name;
   final String email;
   final String email_verified_at;
   final String created_at;
@@ -43,6 +43,12 @@ class Profile {
       'email_verified_at': email_verified_at,
       'created_at': created_at,
       'updated_at': updated_at,
+    };
+  }
+
+  Map<String, String> toMapPut() {
+    return <String, String>{
+      'name': name,
     };
   }
 

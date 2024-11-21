@@ -74,7 +74,8 @@ class APIServices {
           await client.get(Uri.parse('$_url$path'), headers: _header);
 
       if (response.statusCode == 200) {
-        return response.body;
+        logInfo('Response : ${response.body}');
+        return jsonDecode(response.body);
       }
       throw ApiException(
         code: response.statusCode.toString(),
@@ -87,22 +88,19 @@ class APIServices {
 
   Future put({
     required String path,
-    required Map<String, dynamic> body,
+    required Map<String, String> body,
   }) async {
     try {
       var client = http.Client();
 
-      var request = http.MultipartRequest('PUT', Uri.parse('$_url$path'));
+      _header['Content-Type'] = 'application/x-www-form-urlencoded';
 
-      request.headers.addAll(_header);
-
-      body.forEach((key, value) {
-        request.fields[key] = value;
-      });
-
-      var streamedResponse = await client.send(request);
-
-      var response = await http.Response.fromStream(streamedResponse);
+      var response = await client.put(
+        Uri.parse('$_url$path'),
+        headers: _header,
+        encoding: Encoding.getByName('utf-8'),
+        body: body, // Send the encoded body
+      );
 
       if (response.statusCode == 200 || response.statusCode == 204) {
         return response.body.isNotEmpty ? jsonDecode(response.body) : null;

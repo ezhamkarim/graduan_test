@@ -31,11 +31,11 @@ class _LoginViewState extends State<LoginView> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                CustomeTextField(
+                CustomTextField(
                   textEditingController: emailEditingController,
                   hintText: 'Email',
                 ),
-                CustomeTextField(
+                CustomTextField(
                   textEditingController: pwEditingController,
                   obscureText: true,
                   hintText: 'Password',
