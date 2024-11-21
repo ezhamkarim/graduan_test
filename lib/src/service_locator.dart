@@ -6,6 +6,7 @@ final getIt = GetIt.instance;
 void setup() {
   // Register AuthService as a lazy singleton
   getIt.registerLazySingleton<AuthService>(AuthService.new);
+  getIt.registerLazySingleton<APIServices>(APIServices.new);
 }
 
 T getService<T extends Object>() {

@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:graduan_test/src/enum/enum.dart';
 import 'package:graduan_test/src/service/service.dart';
 import 'package:graduan_test/src/service_locator.dart';
+import 'package:graduan_test/src/view/home_view.dart';
+import 'package:graduan_test/src/view/login_view.dart';
 
 class AuthWrapperView extends StatelessWidget {
   const AuthWrapperView({super.key});
@@ -13,9 +16,15 @@ class AuthWrapperView extends StatelessWidget {
     return ListenableBuilder(
         listenable: authService,
         builder: (_, __) {
-          return const Scaffold(
-            body: _LoadingView(),
-          );
+          if (authService.viewState == ViewState.busy) {
+            return const Scaffold(
+              body: _LoadingView(),
+            );
+          }
+          if (!authService.isAuthenticated) {
+            return const LoginView();
+          }
+          return const HomeView();
         });
   }
 }

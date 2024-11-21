@@ -10,7 +10,7 @@ class APIServices {
   final Map<String, String> _header = {};
 
   Future<void> _getHeader() async {
-    // _header.putIfAbsent('Content-Type', () => 'multipart/form-data');
+    _header.putIfAbsent('Content-Type', () => 'multipart/form-data');
   }
 
   APIServices() {
@@ -22,23 +22,40 @@ class APIServices {
     _url = 'https://flutter-api-demo.graduan.xyz/api';
   }
 
-  Future post(
-      {required String path, required Map<String, dynamic> body}) async {
+  Future post({
+    required String path,
+    required Map<String, String>
+        formData, // Form data should be a Map<String, String>
+  }) async {
     try {
-      var client = http.Client();
+      // Prepare the multipart request
+      var uri = Uri.parse('$_url$path');
+      var request = http.MultipartRequest('POST', uri);
 
-      var response = await client.post(Uri.parse('$_url$path'),
-          body: body, headers: _header);
+      // Add headers
+      request.headers.addAll(_header);
+
+      // Add form-data fields
+      formData.forEach((key, value) {
+        request.fields[key] = value;
+      });
+
+      // Send the request
+      var streamedResponse = await request.send();
+
+      // Convert the streamed response to a full response
+      var response = await http.Response.fromStream(streamedResponse);
 
       if (response.statusCode == 200) {
         return jsonDecode(response.body);
       }
+
       throw ApiException(
         code: response.statusCode.toString(),
         message: response.body,
       );
     } catch (e) {
-      logError('Error post : $e');
+      logError('Error post (form-data): $e');
       rethrow;
     }
   }

@@ -10,11 +10,13 @@ environment:
   sdk: ^3.5.3
 
 dependencies:
+  figma_squircle: ^0.5.3
   flutter:
     sdk: flutter
   flutter_cache: ^0.1.0
   flutter_localizations:
     sdk: flutter
+  font_awesome_icon_class: ^0.0.6
   get_it: ^8.0.2
   http: ^1.2.2
 
