@@ -9,6 +9,8 @@ class GraduanRouter {
         return MaterialPageRoute(builder: (context) => const AuthWrapperView());
       case ProfileView.routeName:
         return MaterialPageRoute(builder: (context) => const ProfileView());
+      case CreatePostView.routeName:
+        return MaterialPageRoute(builder: (context) => const CreatePostView());
       default:
         return MaterialPageRoute(
           builder: (context) => ExceptionView(routeName: routeSettings.name!),

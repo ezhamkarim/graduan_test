@@ -85,5 +85,36 @@ class APIServices {
     }
   }
 
-  void put() {}
+  Future put({
+    required String path,
+    required Map<String, dynamic> body,
+  }) async {
+    try {
+      var client = http.Client();
+
+      var request = http.MultipartRequest('PUT', Uri.parse('$_url$path'));
+
+      request.headers.addAll(_header);
+
+      body.forEach((key, value) {
+        request.fields[key] = value;
+      });
+
+      var streamedResponse = await client.send(request);
+
+      var response = await http.Response.fromStream(streamedResponse);
+
+      if (response.statusCode == 200 || response.statusCode == 204) {
+        return response.body.isNotEmpty ? jsonDecode(response.body) : null;
+      }
+
+      throw ApiException(
+        code: response.statusCode.toString(),
+        message: response.body,
+      );
+    } catch (e) {
+      logError('Error put : $e');
+      rethrow;
+    }
+  }
 }

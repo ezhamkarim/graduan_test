@@ -19,9 +19,9 @@ class Post {
     );
   }
 
-  Map<String, dynamic> toMap() {
-    return <String, dynamic>{
-      'id': id,
+  Map<String, String> toMap() {
+    return <String, String>{
+      // 'id': id,
       'title': title,
     };
   }

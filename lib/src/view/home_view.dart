@@ -23,7 +23,9 @@ class HomeView extends StatelessWidget {
               Row(
                 children: [
                   ElevatedButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.of(context).pushNamed(CreatePostView.routeName);
+                    },
                     style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.blue[400]),
                     child: const Text(
