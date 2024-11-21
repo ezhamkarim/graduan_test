@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:graduan_test/src/components/components.dart';
 import 'package:graduan_test/src/extensions/list.dart';
+import 'package:graduan_test/src/helper/dialog_helper.dart';
 import 'package:graduan_test/src/helper/helper.dart';
 import 'package:graduan_test/src/model/model.dart';
 
@@ -43,12 +44,19 @@ class _LoginViewState extends State<LoginView> {
                 CustomButton(
                   onPressed: () async {
                     if (formKey.currentState!.validate()) {
-                      await authService.login(
+                      await authService
+                          .login(
                         LoginCredential(
                           email: emailEditingController.text,
                           password: pwEditingController.text,
                         ),
-                      );
+                      )
+                          .then((e) {
+                        if (e != null) {
+                          DialogHelper.dialogWithOutActionWarning(
+                              context, 'Fail to login :$e');
+                        }
+                      });
                     }
                   },
                   bgColor: Colors.blue[400],
