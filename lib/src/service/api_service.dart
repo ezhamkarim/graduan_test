@@ -16,7 +16,11 @@ class APIServices {
 
     if (token == null) return;
 
-    _header.putIfAbsent('Authorization', () => 'Bearer $token');
+    _header.update(
+      'Authorization',
+      (v) => 'Bearer $token',
+      ifAbsent: () => 'Bearer $token',
+    );
   }
 
   APIServices() {
@@ -33,28 +37,10 @@ class APIServices {
     required Map<String, String> formData,
   }) async {
     try {
-      var client = http.Client();
-      // Prepare the multipart request
+      await _getHeader();
 
       var uri = Uri.parse('$_url$path');
 
-      // if (formData.isEmpty) {
-      //   _header
-      //       .removeWhere((key, value) => value.contains('multipart/form-data'));
-      //   _header.putIfAbsent('Content', () => 'application/json');
-      //   var response = await client.post(
-      //     Uri.parse('$_url$path'),
-      //     headers: _header,
-      //   );
-      //   await _getHeader();
-      //   if (response.statusCode == 200) {
-      //     return jsonDecode(response.body);
-      //   }
-      //   throw ApiException(
-      //     code: response.statusCode.toString(),
-      //     message: response.body,
-      //   );
-      // }
       var request = http.MultipartRequest('POST', uri);
 
       // Add headers
@@ -114,6 +100,7 @@ class APIServices {
 
   Future get(String path) async {
     try {
+      await _getHeader();
       var client = http.Client();
 
       var response =
@@ -137,6 +124,7 @@ class APIServices {
     required Map<String, String> body,
   }) async {
     try {
+      await _getHeader();
       var client = http.Client();
 
       _header['Content-Type'] = 'application/x-www-form-urlencoded';
